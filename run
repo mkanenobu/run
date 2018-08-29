@@ -1,0 +1,76 @@
+#!/bin/bash
+### Script runner for multi language
+
+set -Ceu
+
+if [ -z "$#" ]; then
+  echo "usage: run [SOURCE_FILE] [ARGUMENTS]"
+  exit 1
+fi
+
+source_file="${1}"
+args="${@:2}"
+file_extension="$(echo "${source_file}" | sed 's/^.*\.\([^\.]*\)$/\1/')"
+tmp_dir="/tmp/runner"
+exec_file="${tmp_dir}/a.out"
+compile_flg=0
+runner=""
+
+if [[ "${source_file}" =~ (-h|--help) ]]; then
+  echo "usage: run [SOURCE_FILE] [ARGUMENTS]"
+  exit
+fi
+
+c_compiler="clang"
+cpp_compiler="clang++"
+scheme_runner="racket -r"
+lisp_runner="sbcl --script"
+
+# user_setting="${XDG_CONFIG_HOME}/runner/user_setting"
+# if [ -e "${user_setting}" ]; then
+#   source "${user_setting}"
+# fi
+
+shebang="$(head -n 1 "${source_file}")"
+
+if [[ "${shebang}" =~ ^\#\!/ ]]; then
+  runner="${shebang//\#\!/}"
+else
+  case "${file_extension}" in
+    # need to compile
+    "c"   ) runner="${c_compiler} -o ${exec_file}"; compile_flg=1 ;;
+    "cpp" ) runner="${cpp_compiler} -o ${exec_file}"; compile_flg=1 ;;
+    "rs"  ) runner="rustc -o ${exec_file}"; compile_flg=1 ;;
+    "nim" ) runner="nim c -o:${exec_file} --nimcache:${tmp_dir}"; compile_flg=1 ;;
+    "pas" ) runner="fpc -o${exec_file}"; compile_flg=1 ;;
+
+    "go"  ) runner="go run" ;;
+    "hs"  ) runner="runghc" ;;
+    "ml"  ) runner="ocaml" ;;
+    "sh"  ) runner="sh" ;;
+    "bash") runner="bash" ;;
+    "php" ) runner="php" ;;
+    "py"  ) runner="python3" ;;
+    "rb"  ) runner="ruby" ;;
+    "lua" ) runner="lua" ;;
+    "scm" | "rkt" ) runner="${scheme_runner}" ;;
+    "cl" | "lisp" ) runner="${lisp_runner}" ;;
+    * ) echo "File is not supported"; exit 1 ;;
+  esac
+fi
+
+if [ -n "${runner}" ] && [ "${compile_flg}" -eq 0 ]; then
+  eval "${runner} ${source_file} ${args}"
+elif [ "${compile_flg}" -eq 1 ]; then
+  if [ ! -d "${tmp_dir}" ]; then
+    mkdir -p "${tmp_dir}"
+  fi
+  eval "${runner} ${source_file}" && \
+    chmod +x "${exec_file}" && \
+    ${exec_file} "${args}"
+  rm -r /tmp/runner
+else
+  echo "Error occurred!"
+  exit 1
+fi
+
