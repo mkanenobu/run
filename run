@@ -47,6 +47,8 @@ else
     "go"  ) runner="go run" ;;
     "hs"  ) runner="runghc" ;;
     "ml"  ) runner="ocaml" ;;
+    "jl"  ) runner="julia" ;;
+    "cr"  ) runner="crystal" ;;
     "sh"  ) runner="sh" ;;
     "bash") runner="bash" ;;
     "php" ) runner="php" ;;

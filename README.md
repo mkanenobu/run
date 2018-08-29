@@ -27,5 +27,5 @@ run [SOURCE_FILE] [ARGUMENTS]
 - [x] Lua
 - [x] Scheme (Racket)
 - [x] Common Lisp (SBCL)
-- [ ] Crystal
-- [ ] Julia
+- [x] Crystal
+- [x] Julia
