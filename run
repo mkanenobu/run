@@ -12,22 +12,23 @@ source_file="${1}"
 args="${@:2}"
 file_extension="$(echo "${source_file}" | sed 's/^.*\.\([^\.]*\)$/\1/')"
 tmp_dir="/tmp/runner"
-exec_file="${tmp_dir}/a.out"
+exec_file="${tmp_dir}/run.out"
 compile_flg=0
 runner=""
 
 if [[ "${source_file}" =~ (-h|--help) ]]; then
   echo "usage: run [SOURCE_FILE] [ARGUMENTS]"
-  exit
+  exit 0
 fi
 
 c_compiler="clang"
 cpp_compiler="clang++"
 scheme_runner="racket -r"
 lisp_runner="sbcl --script"
+forth_runner="gforth"
 
 # user_setting="${XDG_CONFIG_HOME}/runner/user_setting"
-# if [ -e "${user_setting}" ]; then
+# if [ -f "${user_setting}" ]; then
 #   source "${user_setting}"
 # fi
 
@@ -55,6 +56,7 @@ else
     "py"  ) runner="python3" ;;
     "rb"  ) runner="ruby" ;;
     "lua" ) runner="lua" ;;
+    "fs" | "fth"  ) runner="${forth_runner}"; args="${args} -e bye";;
     "scm" | "rkt" ) runner="${scheme_runner}" ;;
     "cl" | "lisp" ) runner="${lisp_runner}" ;;
     * ) echo "File is not supported"; exit 1 ;;
