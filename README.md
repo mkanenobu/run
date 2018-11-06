@@ -29,3 +29,4 @@ run [SOURCE_FILE] [ARGUMENTS]
 - [x] Common Lisp (SBCL)
 - [x] Crystal
 - [x] Julia
+- [x] Forth
