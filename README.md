@@ -11,7 +11,7 @@ run [SOURCE_FILE] [ARGUMENTS]
 ```
 
 ### Supported Languages and planed
-- [x] C-lang
+- [x] C
 - [x] C++
 - [x] Go-lang
 - [x] Rust
@@ -29,4 +29,4 @@ run [SOURCE_FILE] [ARGUMENTS]
 - [x] Common Lisp (SBCL)
 - [x] Crystal
 - [x] Julia
-- [x] Forth
+- [x] Forth (gforth)
