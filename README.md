@@ -13,11 +13,11 @@ run [SOURCE_FILE] [ARGUMENTS]
 ### Supported Languages and planed
 - [x] C
 - [x] C++
-- [x] Go-lang
+- [x] Go
 - [x] Rust
 - [x] Nim
 - [x] OCaml
-- [x] Free Pascal
+- [x] Pascal (fpc)
 - [x] Haskell
 - [x] sh
 - [x] Bash
