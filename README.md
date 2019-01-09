@@ -11,22 +11,4 @@ run [SOURCE_FILE] [ARGUMENTS]
 ```
 
 ### Supported Languages and planed
-- [x] C
-- [x] C++
-- [x] Go
-- [x] Rust
-- [x] Nim
-- [x] OCaml
-- [x] Pascal (fpc)
-- [x] Haskell
-- [x] sh
-- [x] Bash
-- [x] PHP
-- [x] Python
-- [x] Ruby
-- [x] Lua
-- [x] Scheme (Racket)
-- [x] Common Lisp (SBCL)
-- [x] Crystal
-- [x] Julia
-- [x] Forth (gforth)
+C, C++, Go, Rust, Nim, OCaml. Pascal (fpc). Haskell, sh, Bash, PHP, Python, Ruby, Lua, Scheme (Racket), Common Lisp (SBCL), Crystal, Julia, Forth (gforth)
