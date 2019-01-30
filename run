@@ -12,23 +12,25 @@ source_file="${1}"
 args="${@:2}"
 file_extension="$(echo "${source_file}" | sed 's/^.*\.\([^\.]*\)$/\1/')"
 tmp_dir="/tmp/runner"
-exec_file="${tmp_dir}/run.out"
+exec_file="${tmp_dir}/a.out"
 compile_flg=0
 runner=""
 
 if [[ "${source_file}" =~ (-h|--help) ]]; then
   echo "usage: run [SOURCE_FILE] [ARGUMENTS]"
-  exit 0
+  exit
 fi
 
-c_compiler="clang"
-cpp_compiler="clang++"
+[ "$(which clang)" ] && c_compiler="clang" || c_compiler="gcc"
+[ "$(which clang++)" ] && cpp_compiler="clang++" || cpp_compiler="g++"
 scheme_runner="racket -r"
 lisp_runner="sbcl --script"
 forth_runner="gforth"
 
+[ "$(which stack)" ] && haskell_stack=true || haskell_stack=false
+
 # user_setting="${XDG_CONFIG_HOME}/runner/user_setting"
-# if [ -f "${user_setting}" ]; then
+# if [ -e "${user_setting}" ]; then
 #   source "${user_setting}"
 # fi
 
@@ -46,10 +48,11 @@ else
     "pas" ) runner="fpc -o${exec_file}"; compile_flg=1 ;;
 
     "go"  ) runner="go run" ;;
-    "hs"  ) runner="runghc" ;;
+    "hs"  ) runner="$(if [ "${haskell_stack}" ]; then echo "stack "; fi) runghc" ;;
     "ml"  ) runner="ocaml" ;;
     "jl"  ) runner="julia" ;;
     "cr"  ) runner="crystal" ;;
+
     "sh"  ) runner="sh" ;;
     "bash") runner="bash" ;;
     "php" ) runner="php" ;;
@@ -77,4 +80,3 @@ else
   echo "Error occurred!"
   exit 1
 fi
-
